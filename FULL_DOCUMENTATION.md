@@ -46,8 +46,25 @@
   - Search: "Install Docker on Ubuntu"
   - Open the first official Docker website (docs.docker.com)
   - Scroll down and copy the **first big command block** and paste into your VM terminal
+  # Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
   - Then copy and paste the **second command block**
+  sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
   - Then run the **third command** to test Docker:
+  sudo docker run hello-world
 
     ```bash
     docker run hello-world
@@ -57,6 +74,11 @@
 
   - On the same page, scroll to: **"Post-installation steps for Linux"**
   - Paste all 4 commands one by one to allow Docker without `sudo`
+  sudo groupadd docker
+  sudo usermod -aG docker $USER
+  newgrp docker
+  docker run hello-world
+
   - Last command is for testing
 
 - **Enable Docker to start on boot**
@@ -90,6 +112,10 @@
     - Select **Binary download**
   - Reminder: You have already done this on Windows, so you're familiar with how Minikube works
 
+  curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+minikube start
+
 - **Install Minikube Binary on VM**
 
   - Copy and paste the installation commands from the website into your VM terminal
@@ -104,8 +130,11 @@
 
 - **Install kubectl**
 
-  - Search: `Install kubectl`
+  - Search: `Install kubectl linux`
   - Run the first command with `curl` from the official Kubernetes docs
+
+   curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
   - Run the second command to validate the download
   - Instead of installing manually, go to the **Snap section** (below on the same page)
 
@@ -131,8 +160,8 @@
 ### 4. Interlink your Github on VSCode and on VM
 
 ```bash
-git config --global user.email "gyrogodnon@gmail.com"
-git config --global user.name "data-guru0"
+git config --global user.email "princegupta995643@gmail.com"
+git config --global user.name "PrinceGupta8"
 
 git add .
 git commit -m "commit"
